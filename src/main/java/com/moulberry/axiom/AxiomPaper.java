@@ -11,6 +11,7 @@ import com.moulberry.axiom.integration.plotsquared.PlotSquaredIntegration;
 import com.moulberry.axiom.packet.*;
 import com.moulberry.axiom.packet.impl.*;
 import com.moulberry.axiom.world_properties.server.ServerWorldPropertiesRegistry;
+import com.tcoded.folialib.FoliaLib;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.papermc.paper.event.player.PlayerFailMoveEvent;
