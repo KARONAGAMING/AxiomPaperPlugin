@@ -46,8 +46,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: ${{ env.VERSION }}
-          release_name: Release ${{ env.VERSION }}
+          tag_name: ${{ steps.extract_version.outputs.version }}
+          release_name: Release ${{ steps.extract_version.outputs.version }}
           draft: false
           prerelease: false
       
@@ -56,7 +56,7 @@ jobs:
         run: |
           ASSETS_URL="https://api.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets"
           ASSET_RESPONSE=$(curl -H "Authorization: token ${{ secrets.TOKEN }}" -s $ASSETS_URL)
-          MATCHED_ASSET=$(echo "$ASSET_RESPONSE" | jq -c '.[] | select(.name == "AxiomPaper-'${{ env.VERSION }}'.jar")')
+          MATCHED_ASSET=$(echo "$ASSET_RESPONSE" | jq -c '.[] | select(.name == "AxiomPaper-'${{ steps.extract_version.outputs.version }}'.jar")')
           echo "MATCHED_ASSET=$MATCHED_ASSET" >> $GITHUB_ENV
       
       - name: Override Previous Release
@@ -72,6 +72,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/AxiomPaper-${{ env.VERSION }}.jar
-          asset_name: AxiomPaper-${{ env.VERSION }}.jar
+          asset_path: build/libs/AxiomPaper-${{ steps.extract_version.outputs.version }}.jar
+          asset_name: AxiomPaper-${{ steps.extract_version.outputs.version }}.jar
           asset_content_type: application/java-archive
