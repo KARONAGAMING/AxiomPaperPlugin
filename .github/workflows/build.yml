@@ -60,7 +60,7 @@ jobs:
         run: |
           ASSET_ID=$(echo "[]" | jq -r '.[0].id // "null"')
           if [ "$ASSET_ID" != "null" ]; then
-            curl -X DELETE -H "Authorization: token ***" "https://api.github.com/repos/KARONAGAMING/AxiomPaperPlugin/releases/assets/$ASSET_ID"
+            curl -X DELETE -H "Authorization: token ${{ secrets.TOKEN }}" "https://api.github.com/repos/KARONAGAMING/AxiomPaperPlugin/releases/assets/$ASSET_ID"
           else
             echo "No matching asset found to delete."
           fi
