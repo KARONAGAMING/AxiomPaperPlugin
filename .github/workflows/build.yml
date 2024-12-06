@@ -39,7 +39,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ steps.extract_version.outputs.version }}
           release_name: Release ${{ steps.extract_version.outputs.version }}
@@ -51,7 +51,7 @@ jobs:
         # Get most recent release and jar with the same version from extract_version
         run: |
           ASSETS_URL="https://api.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets"
-          ASSET_RESPONSE=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s $ASSETS_URL)
+          ASSET_RESPONSE=$(curl -H "Authorization: token ${{ secrets.TOKEN }}" -s $ASSETS_URL)
           echo "$ASSET_RESPONSE" | jq -c '.[] | select(.name == "AxiomPaper-${{ steps.extract_version.outputs.version }}.jar")' || echo "[]"
           echo "::set-output name=assets::$ASSET_RESPONSE"
       - name: Override Previous Release
@@ -60,7 +60,7 @@ jobs:
         run: |
           ASSET_ID=$(echo "${{ steps.check_assets.outputs.assets }}" | jq -r '.[0].id')
           if [ "$ASSET_ID" != "null" ]; then
-            curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/assets/$ASSET_ID"
+            curl -X DELETE -H "Authorization: token ${{ secrets.TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/assets/$ASSET_ID"
           fi
       - name: Upload JAR
         id: upload_jar
