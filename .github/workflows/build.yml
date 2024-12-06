@@ -58,9 +58,9 @@ jobs:
       - name: Override Previous Release
         id: delete_asset
         run: |
-          ASSET_ID=$(echo "${{ steps.check_assets.outputs.assets }}" | jq -r '.[0].id // "null"')
+          ASSET_ID=$(echo "[]" | jq -r '.[0].id // "null"')
           if [ "$ASSET_ID" != "null" ]; then
-            curl -X DELETE -H "Authorization: token ${{ secrets.TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/assets/$ASSET_ID"
+            curl -X DELETE -H "Authorization: token ***" "https://api.github.com/repos/KARONAGAMING/AxiomPaperPlugin/releases/assets/$ASSET_ID"
           else
             echo "No matching asset found to delete."
           fi
