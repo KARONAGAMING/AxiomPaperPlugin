@@ -72,3 +72,5 @@ jobs:
           asset_path: build/libs/AxiomPaper-${{ steps.extract_version.outputs.version }}.jar
           asset_name: AxiomPaper-${{ steps.extract_version.outputs.version }}.jar
           asset_content_type: application/java-archive
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} 
